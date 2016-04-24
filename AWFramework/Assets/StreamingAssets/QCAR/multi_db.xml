@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QCARConfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="qcar_config.xsd">
+  <Tracking>
+    <ImageTarget name="marker_vuforia_5" size="12.000000 12.000000" />
+    <ImageTarget name="marker_vuforia_4" size="12.000000 12.000000" />
+    <ImageTarget name="marker_vuforia_3" size="12.000000 12.000000" />
+    <ImageTarget name="marker_vuforia_2" size="12.000000 12.000000" />
+    <ImageTarget name="marker_vuforia_1" size="12.000000 12.000000" />
+    <ImageTarget name="marker_vuforia_6" size="12.000000 12.000000" />
+    <MultiTarget name="Surface1">
+       <Part name="marker_vuforia_1" translation="-21.5 13 0" rotation="AD: 1 0 0 0"/>
+       <Part name="marker_vuforia_2" translation="-21.5 -13 0" rotation="AD: 1 0 0 0"/>
+       <Part name="marker_vuforia_3" translation="0 13 0" rotation="AD: 1 0 0 0"/>
+       <Part name="marker_vuforia_4" translation="0 -13 0" rotation="AD: 1 0 0 0"/>
+       <Part name="marker_vuforia_5" translation="21.5 13 0" rotation="AD: 1 0 0 0"/>
+       <Part name="marker_vuforia_6" translation="21.5 -13 0" rotation="AD: 1 0 0 0"/>
+    </MultiTarget>
+  </Tracking>
+</QCARConfig>
