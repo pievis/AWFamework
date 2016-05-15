@@ -1,8 +1,8 @@
 # AWFamework
-Unity based framework per Augmented Worlds
+Unity based framework for Augmented Worlds
 
 #Intro
-//todo
+This framework provides a toolkit of useful class and methologies for a easy going developevment of application that concerns the Augmentd Worlds model.
 
 # Used Technologies
 	- Vuforia for digital / virtual world coupling based on multimarker functionality
