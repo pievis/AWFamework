@@ -2,6 +2,7 @@
 {
 	public interface IEventListener
 	{
-		void exec(IEvent e);
+		void Exec(IEvent e);
+		void AddToQueue(IEvent e);
 	}
 }

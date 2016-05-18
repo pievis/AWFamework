@@ -4,7 +4,7 @@ using UnityEngine.Networking;
 
 public class AWNetworkManager : NetworkManager
 {
-	
+
 	ScreenLogger logger;
 	
 	void Log (string str)
@@ -32,6 +32,12 @@ public class AWNetworkManager : NetworkManager
 		}
 	}
 
+	bool isServer = false;
+	public bool IsServer ()
+	{
+		return isServer;
+	}
+
 	//SERVER SIDE
 	
 	//Called when a client connects
@@ -53,7 +59,7 @@ public class AWNetworkManager : NetworkManager
 		Log ("***NETWORK ERROR*** " + conn.address + " code: " + errorCode);
 		printError (errorCode);
 	}
-	
+
 	//CLIENT SIDE
 	
 	// called when connected to a server
@@ -77,74 +83,24 @@ public class AWNetworkManager : NetworkManager
 		printError (errorCode);
 	}
 
-	//************
-	//Message Handling
-
-	const short INTERACTION_MSG_ID = 888;
-
 	public override void OnStartServer ()
 	{
 		base.OnStartServer ();
+		isServer = true;
 		//Handlers registration
 		NetworkServer.RegisterHandler (INTERACTION_MSG_ID, OnGameObjectInteraction);
+		//Enable all HoloDoer
+		HoloDoerComponent[] hdoers = Object.FindObjectsOfType<HoloDoerComponent>();
+		foreach(HoloDoerComponent hd in hdoers){
+			hd.enabled = true;
+		}
 	}
 
-	
-	class InteractionMessage : MessageBase
-	{
-		public uint netId;
-		public string method;
-		public object[] args;
-		
-		public InteractionMessage (uint netId, string method,
-		                           object[] args)
-		{
-			this.netId = netId;
-			this.method = method;
-			this.args = args;
-		}
-		
-		public InteractionMessage ()
-		{
-		}
-		
-		public override void Deserialize (NetworkReader reader)
-		{
-			netId = reader.ReadPackedUInt32 ();
-			method = reader.ReadString ();
-			ushort length = reader.ReadUInt16 ();
-			args = new object[length];
-			for (int i = 0; i < length; i++) {
-				byte[] bytes = reader.ReadBytesAndSize ();
-				args [i] = BinaryDataFormatter.FromBytes (bytes);
-			}
-		}
-		
-		public override void Serialize (NetworkWriter writer)
-		{
-			writer.WritePackedUInt32 (netId);
-			writer.Write (method);
-			writer.Write ((ushort)args.Length);
+	//************
+	//Message Handling
 
-			for (int i = 0; i < args.Length; i++) {
-				byte[] bytes;
-				try {
-					bytes = BinaryDataFormatter.ToBytes (args [i]);
-					writer.WriteBytesFull (bytes);
-				} catch (System.Exception se) {
-					Debug.LogException (se);
-				}
-
-			}
-		}
-
-		override public string ToString ()
-		{
-			return "netID: " + netId + 
-				" method_name: " + method + 
-				" args_lenght: " + args.Length;
-		}
-	};
+	public const short INTERACTION_MSG_ID = 888;
+	public const short ASKSTATE_MSG_ID = 889;
 
 	public void SendInteractionMessage (GameObject go, string method, object[] args)
 	{

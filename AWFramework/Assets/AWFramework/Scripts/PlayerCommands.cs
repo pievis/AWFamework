@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using UnityEngine.Networking;
 using AWFramework;
@@ -17,8 +17,13 @@ public class PlayerCommands : NetworkBehaviour
 	public override void OnStartLocalPlayer ()
 	{
 		base.OnStartLocalPlayer ();
-		AWConfig.getInstance ().SetLocalPlayer (this.gameObject);
+		AWConfig.GetInstance ().SetLocalPlayer (this.gameObject);
 		Debug.Log ("Saved instance of the local player");
+		//chain to netSync components
+		HLAPINetworkSync[] hnss = Object.FindObjectsOfType<HLAPINetworkSync>();
+		foreach(HLAPINetworkSync hns in hnss){
+			hns.OnStartLocalPlayer();
+		}
 	}
 
 	// Use this for initialization
@@ -32,6 +37,20 @@ public class PlayerCommands : NetworkBehaviour
 	// Commands
 	//See@: http://docs.unity3d.com/Manual/UNetActions.html
 	////
+
+	[Command]
+	public void CmdAskCurrentState (short msgId, GameObject requester)
+	{
+		Log ("askCurState message received from client (msgId:" + msgId + ")");
+		int connectionId = connectionToClient.connectionId;
+		Log ("sending message to " + connectionId);
+		HLAPINetworkSync nets = requester.GetComponent<HLAPINetworkSync>();
+		StateMessage msg = nets.GetCurrentState();
+		NetworkServer.SendToClient(connectionId,
+		                           msgId,
+		                           msg);
+		Log ("message sent: " + msg.ToString());
+	}
 
 	[Command]
 	void CmdSpawnObj (GameObject placingObject)
@@ -53,7 +72,7 @@ public class PlayerCommands : NetworkBehaviour
 		GameObject placingObject = null;
 		if (prefab != null) {
 			placingObject = Instantiate (prefab, position, rotation) as GameObject;
-			placingObject.transform.parent = AWConfig.getWorldTransform ();
+			placingObject.transform.parent = AWConfig.GetInstance().GetWorldTransform ();
 		}
 		if (placingObject == null) {
 			Log ("Can't spawn something that I don't have - " + name);
@@ -156,6 +175,15 @@ public class PlayerCommands : NetworkBehaviour
 		} else if(isServer) {
 			OnGameObjectInteraction(go, method, args);
 		}
+	}
+
+	/// <summary>
+	/// Asks the server to send back a state message for msgId.
+	/// </summary>
+	/// <param name="msgId">Message identifier.</param>
+	/// <param name="requester">Requester.</param>
+	public void AskCurrentState(short msgId, GameObject requester){
+		CmdAskCurrentState(msgId, requester);
 	}
 
 	//********************************

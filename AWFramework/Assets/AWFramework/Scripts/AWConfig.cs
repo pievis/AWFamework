@@ -28,12 +28,12 @@ namespace AWFramework
 
 		//static
 		static AWConfig instance;
-		static GameObject worldGO;
-		static GameObject localPlayer;
-		static IEventContext mainEventContext; //TODO setup
+		GameObject worldGO;
+		GameObject localPlayer;
+		IEventContext mainEventContext;
 
 		//Singleton - Only the monobehaviour instance attached to this GO should be used
-		public static AWConfig getInstance ()
+		public static AWConfig GetInstance ()
 		{
 			if (instance == null) {
 				instance = GameObject.Find (AW_CONFIG_GO_NAME).GetComponent<AWConfig> ();
@@ -53,29 +53,58 @@ namespace AWFramework
 		void Bind ()
 		{
 			worldGO = GameObject.Find (AW_WORLD_GO_NAME);
+			IEventContext mec = GetComponent<MonoEventContext> ();
+			if (mec == null) {
+				mec = gameObject.AddComponent<MonoEventContext> ();
+			}
+			mainEventContext = mec;
 		}
 
 		/// <summary>
 		/// Gets the world transform (position, rotation, size).
 		/// </summary>
 		/// <returns>The world transform.</returns>
-		public static Transform getWorldTransform(){
-			return worldGO.GetComponent<Transform>();
+		public Transform GetWorldTransform ()
+		{
+			return worldGO.GetComponent<Transform> ();
 		}
 
 		/// <summary>
 		/// Set the reference of the local player for the client application.
 		/// </summary>
 		/// <param name="player">Player GameObject</param>
-		public void SetLocalPlayer(GameObject player){
+		public void SetLocalPlayer (GameObject player)
+		{
 			localPlayer = player;
 		}
 		/// <summary>
 		/// Gets the local player instance for this player of which he has the authority.
 		/// </summary>
 		/// <returns>The local player or null if not setted yet.</returns>
-		public GameObject GetLocalPlayer(){
+		public GameObject GetLocalPlayer ()
+		{
 			return localPlayer;
+		}
+
+		/// <summary>
+		/// Gets the main event context shared by the whole application.
+		/// </summary>
+		/// <value>The main event context.</value>
+		public IEventContext MainEventContext {
+			get {
+				return this.mainEventContext;
+			}
+		}
+
+		public static bool IsServer ()
+		{
+			switch (AWConfig.GetInstance ().netSystem) {
+			case NetSystem.HLAPI:
+				return ((AWNetworkManager)AWNetworkManager.singleton).IsServer ();
+			case NetSystem.NONE:
+				return true;
+			}
+			return false;
 		}
 	}
 

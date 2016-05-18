@@ -3,7 +3,7 @@ namespace AWFramework
 {
 	public interface IEvent
 	{
-		IEventSender getSender();
+		IEventSender GetSender();
 	}
 }
 

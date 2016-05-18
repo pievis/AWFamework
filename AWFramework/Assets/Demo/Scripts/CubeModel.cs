@@ -50,6 +50,14 @@ public class CubeModel : MonoBehaviour, IModel
 
 	public void SetColor(Color color){
 		this.color = color;
+		SendCountEvent();
+	}
+
+	void SendCountEvent(){
+		BaseEvent e = new BaseEvent();
+		e.SetSender(GetComponent<HologramComponent>());
+		AWConfig.GetInstance().MainEventContext.Send(e);
+		Debug.Log ("Event sent " + e.ToString());
 	}
 
 	public void SetColor(int colorInt){
@@ -60,6 +68,6 @@ public class CubeModel : MonoBehaviour, IModel
 	public void Rotate(Vector3 axis, float degree){
 		Vector3 newRot = GetEuclidRot() + (axis * degree);
 		SetEuclidRot(newRot);
-		Debug.Log ("Model: changed rotation to : " + newRot);
+//		Debug.Log ("Model: changed rotation to : " + newRot);
 	}
 }
