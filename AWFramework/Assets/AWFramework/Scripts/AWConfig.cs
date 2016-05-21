@@ -42,7 +42,7 @@ namespace AWFramework
 		}
 
 		//
-		void Start ()
+		void Awake ()
 		{
 			Bind ();
 		}

@@ -11,10 +11,7 @@ public class CubeDoer : HoloDoerComponent {
 	// Use this for initialization
 	void Start () {
 		Init();
-//		SubscribeToMainEventContext();
-		IEventContext mec =  AWConfig.GetInstance().MainEventContext;
-		mec.Subscribe(this);
-		//TODO check why he doen't seem to be registered to the event context anymore
+		SubscribeToMainEventContext();
 	}
 
 	// Update is called once per frame
@@ -24,7 +21,7 @@ public class CubeDoer : HoloDoerComponent {
 
 	public override void Exec (IEvent e)
 	{
-		Debug.Log("Received event " + e.ToString());
+		Debug.Log("Executing event " + e.ToString());
 		counter++;
 		if(counter >= counterLimit){
 			counter = 0;

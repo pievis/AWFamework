@@ -19,7 +19,6 @@ public abstract class HoloDoerComponent : MonoBehaviour, IHoloDoer {
 	{
 		if(eventQueue == null)
 			eventQueue = new Queue<IEvent>();
-		Debug.Log("ADDED");
 		eventQueue.Enqueue(e);
 	}
 

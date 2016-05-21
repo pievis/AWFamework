@@ -9,11 +9,11 @@ public class MonoEventContext : MonoBehaviour, IEventContext {
 	IList<IEvent> events;
 
 
-	void Start(){
+	void Awake(){
 		Init ();
 	}
 
-	void Init(){
+	protected void Init(){
 		listeners = new List<IEventListener>();
 		events = new List<IEvent>();
 	}
@@ -30,14 +30,11 @@ public class MonoEventContext : MonoBehaviour, IEventContext {
 
 	public void Send (IEvent e)
 	{
-		Debug.Log("Send}");
 		events.Add(e);
 	}
 
 	void SendToListeners(IEvent e){
-		Debug.Log("Send--} " + e.ToString());
 		foreach(IEventListener el in listeners){
-			Debug.Log("Send------} " + e.ToString());
 			el.AddToQueue(e);
 		}
 	}
