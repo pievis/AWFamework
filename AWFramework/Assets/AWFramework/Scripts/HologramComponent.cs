@@ -29,8 +29,9 @@ public class HologramComponent : MonoBehaviour, IHologram
 		this.model = model;
 	}
 
-	public void Invoke(string name){
-		Invoke(name, null);
+	public void Invoke (string name)
+	{
+		Invoke (name, null);
 	}
 	
 	public void Invoke (string name, params object[] args)
@@ -43,16 +44,25 @@ public class HologramComponent : MonoBehaviour, IHologram
 			}
 		}
 
-		MethodInfo vMethod = view.GetType ().GetMethod (name, types);
-		if (vMethod != null)
-			vMethod.Invoke (view, args);
-		MethodInfo mMethod = model.GetType ().GetMethod (name, types);
-		if (mMethod != null)
-			mMethod.Invoke (model, args);
-		MethodInfo nsMethod = networkSync.GetType ().GetMethod (name, types);
-		if (nsMethod != null)
-			nsMethod.Invoke (networkSync, args);
-		Log ("Invoke: " + name);
+		MethodInvoke (view, name, types, args);
+		MethodInvoke (model, name, types, args);
+		MethodInvoke (networkSync, name, types, args);
+
+//		Log ("Invoke: " + name);
+	}
+
+	void MethodInvoke (object target, string method,
+	                  System.Type[] types, params object[] args)
+	{
+		if (target == null || method.Length == 0)
+			return;
+
+		MethodInfo vMethod = target.GetType ().GetMethod (method, types);
+		if (vMethod != null) {
+			vMethod.Invoke (target, args);
+		} else {
+			Log ("method" + method + " not found for " + target.GetType ());
+		}
 	}
 
 	void Bind ()
@@ -62,7 +72,7 @@ public class HologramComponent : MonoBehaviour, IHologram
 		networkSync = GetComponent<INetworkSync> ();
 	}
 
-	void Start ()
+	void Awake ()
 	{
 		Bind ();
 	}

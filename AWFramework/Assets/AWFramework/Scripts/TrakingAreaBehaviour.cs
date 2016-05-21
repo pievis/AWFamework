@@ -8,13 +8,14 @@ using AWFramework;
 /// </summary>
 public class TrakingAreaBehaviour : MonoEventContext, IEventSender {
 
-	public Collider trakingArea; 
+	Collider trakingArea; 
 
 	void Start () {
 		CheckCollider();
 	}
 
 	void CheckCollider(){
+		trakingArea = GetComponent<Collider>();
 		if(trakingArea == null){
 			Debug.Log(gameObject.name + " has no collider");
 		}
