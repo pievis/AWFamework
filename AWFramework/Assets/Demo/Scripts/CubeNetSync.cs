@@ -33,14 +33,8 @@ public class CubeNetSync : HLAPINetworkSync, INetworkSync {
 	}
 
 	//Shared hologram methods
-	
-	public void SetColor(Color color){
-		int colorInt = color.Equals(Color.red) ? 1 : 0;
-		SetColor(colorInt);
-	}
 
-	public void SetColor(int colorInt){
-		Color color = colorInt == 1 ? Color.red : Color.blue;
+	public void SetColor(Color color){
 		if(isServer){
 			//send view update information to all clients
 			ScreenLogger.getLogger().ShowMsg("called from server " + color.ToString());
@@ -49,7 +43,7 @@ public class CubeNetSync : HLAPINetworkSync, INetworkSync {
 		if(isClient){
 			ScreenLogger.getLogger().ShowMsg("called from client" + color.ToString());
 			//send the command to the server
-			SendCmd("SetColor", colorInt);
+			SendCmd("SetColor", color);
 		}
 	}
 
@@ -72,11 +66,17 @@ public class CubeNetSync : HLAPINetworkSync, INetworkSync {
 		}
 	}
 
+	/// <summary>
+	/// Handler that processes the current state message received from the server
+	/// after AskCurrentState is called.
+	/// </summary>
+	/// <param name="msg">Message.</param>
 	public override void OnCurrentStateReceived (NetworkMessage msg)
 	{
 		StateMessage sm = msg.ReadMessage<StateMessage>();
 		Debug.Log ("state message received " + sm.ToString() + " " + gameObject.name);
 		Color c = (Color) sm.GetValue("color");
+		Debug.Log ("color " + sm.ToString() + " " + gameObject.name);
 		view.SetColor(c);
 	}
 

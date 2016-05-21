@@ -10,27 +10,35 @@ public class CubeView : MonoBehaviour, IView
 	int colorInt = 0;
 	Rigidbody rb;
 
+	//
+	public Color[] colors;
+
 	void Start ()
 	{
 		rend = GetComponent<Renderer> ();
 		hc = GetComponent<HologramComponent> ();
 		rb = GetComponent<Rigidbody>();
+		if(colors == null || colors.Length == 0){
+			colors = new[] {Color.blue, Color.red};
+		}
+		SetColor(colors[0]);
 	}
 
 	void Update ()
 	{
 		//Teporary View Control
+
 		//SetColor test
 		if (Input.GetMouseButtonDown (0)) {
 			RaycastHit hit; 
 			Ray ray = Camera.main.ScreenPointToRay (Input.mousePosition);
 			if (Physics.Raycast (ray, out hit, 100.0f)) {
 				if (hit.collider.gameObject == gameObject) {
-					colorInt = (colorInt + 1) % 2;
-					hc.Invoke ("SetColor", colorInt);
+					SwitchColor();
 				}
 			}
 		}
+
 		//Rotate Test
 		if (Input.GetKeyDown (KeyCode.A)) {
 			hc.Invoke ("Rotate", Vector3.up, 10);
@@ -40,6 +48,12 @@ public class CubeView : MonoBehaviour, IView
 		}
 
 		Jumping ();
+	}
+
+
+	void SwitchColor(){
+		colorInt = (colorInt + 1) % colors.Length;
+		hc.Invoke("SetColor", colors[colorInt]);
 	}
 
 	bool isJumping = false;
@@ -65,7 +79,6 @@ public class CubeView : MonoBehaviour, IView
 	public void Rotate (Vector3 axis, float degree)
 	{
 		transform.Rotate (axis, degree);
-		Log ("rotation changed");
 	}
 
 	public void SetColor (Color color)
@@ -80,7 +93,7 @@ public class CubeView : MonoBehaviour, IView
 
 	public void SetColor (int colorInt)
 	{
-		Color color = colorInt == 1 ? Color.red : Color.blue;
+		Color color = colors[colorInt];
 		SetColor (color);
 	}
 
