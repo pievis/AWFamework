@@ -1,10 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.Networking;
+using AWFramework;
 
 public class AWNetworkManager : NetworkManager
 {
-
+	
 	ScreenLogger logger;
 	
 	void Log (string str)
@@ -30,6 +31,16 @@ public class AWNetworkManager : NetworkManager
 			Log ("*** Missing resources");
 			break;
 		}
+	}
+
+	static AWNetworkManager instance;
+
+	public static AWNetworkManager GetInstance(){
+		if(instance == null){
+			instance = GameObject.Find(AWConfig.AW_CONFIG_GO_NAME)
+				.GetComponent<AWNetworkManager>();
+		}
+		return instance;
 	}
 
 	bool isServer = false;
@@ -94,6 +105,12 @@ public class AWNetworkManager : NetworkManager
 		foreach(HoloDoerComponent hd in hdoers){
 			hd.enabled = true;
 		}
+	}
+
+	public override NetworkClient StartHost ()
+	{
+		client = base.StartHost ();
+		return client;
 	}
 
 	//************

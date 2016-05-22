@@ -46,9 +46,13 @@ public abstract class HLAPINetworkSync : NetworkBehaviour, INetworkSync
 	public override void OnStartClient ()
 	{
 		base.OnStartClient ();
-		NetworkManager.singleton
-			.client.RegisterHandler (GetAskCSMsgId(),
+		NetworkClient client = AWNetworkManager.GetInstance().client;
+		if(client != null){
+			client.RegisterHandler (GetAskCSMsgId(),
 			                        OnCurrentStateReceived);
+		}else {
+			Debug.LogWarning("AWNetworkManager returned null client");
+		}
 	}
 
 	public void AskCurrentState ()

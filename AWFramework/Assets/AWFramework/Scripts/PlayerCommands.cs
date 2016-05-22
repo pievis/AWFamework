@@ -20,9 +20,9 @@ public class PlayerCommands : NetworkBehaviour
 		AWConfig.GetInstance ().SetLocalPlayer (this.gameObject);
 		Debug.Log ("Saved instance of the local player");
 		//chain to netSync components
-		HLAPINetworkSync[] hnss = Object.FindObjectsOfType<HLAPINetworkSync>();
-		foreach(HLAPINetworkSync hns in hnss){
-			hns.OnStartLocalPlayer();
+		HLAPINetworkSync[] hnss = Object.FindObjectsOfType<HLAPINetworkSync> ();
+		foreach (HLAPINetworkSync hns in hnss) {
+			hns.OnStartLocalPlayer ();
 		}
 	}
 
@@ -30,7 +30,7 @@ public class PlayerCommands : NetworkBehaviour
 	void Start ()
 	{
 		logger = ScreenLogger.getLogger ();
-		netManager =(AWNetworkManager) AWNetworkManager.singleton;
+		netManager = (AWNetworkManager)AWNetworkManager.singleton;
 	}
 
 	/////
@@ -44,12 +44,12 @@ public class PlayerCommands : NetworkBehaviour
 		Log ("askCurState message received from client (msgId:" + msgId + ")");
 		int connectionId = connectionToClient.connectionId;
 		Log ("sending message to " + connectionId);
-		HLAPINetworkSync nets = requester.GetComponent<HLAPINetworkSync>();
-		StateMessage msg = nets.GetCurrentState();
-		NetworkServer.SendToClient(connectionId,
+		HLAPINetworkSync nets = requester.GetComponent<HLAPINetworkSync> ();
+		StateMessage msg = nets.GetCurrentState ();
+		NetworkServer.SendToClient (connectionId,
 		                           msgId,
 		                           msg);
-		Log ("message sent: " + msg.ToString());
+		Log ("message sent: " + msg.ToString ());
 	}
 
 	[Command]
@@ -72,7 +72,7 @@ public class PlayerCommands : NetworkBehaviour
 		GameObject placingObject = null;
 		if (prefab != null) {
 			placingObject = Instantiate (prefab, position, rotation) as GameObject;
-			placingObject.transform.parent = AWConfig.GetInstance().GetWorldTransform ();
+			placingObject.transform.parent = AWConfig.GetInstance ().GetWorldTransform ();
 		}
 		if (placingObject == null) {
 			Log ("Can't spawn something that I don't have - " + name);
@@ -86,12 +86,12 @@ public class PlayerCommands : NetworkBehaviour
 	void CmdInteract (GameObject go, string method)
 	{
 		HologramComponent hc = go.GetComponent<HologramComponent> ();
-		if(hc != null){
-			hc.Invoke(method);
-		}else {
-				Debug.LogWarning ("Can't find HologramComponent for " + go.name
-				                  + " using SendMessage insetead");
-				go.SendMessage(method);
+		if (hc != null) {
+			hc.Invoke (method);
+		} else {
+			Debug.LogWarning ("Can't find HologramComponent for " + go.name
+				+ " using SendMessage insetead");
+			go.SendMessage (method);
 		}
 	}
 
@@ -104,18 +104,18 @@ public class PlayerCommands : NetworkBehaviour
 			Log ("Asked to destroy something, but nothing was found");
 	}
 
-	public static void OnGameObjectInteraction (GameObject go , string method, object[] args)
+	public static void OnGameObjectInteraction (GameObject go, string method, object[] args)
 	{
-		HologramComponent hc = go.GetComponent<HologramComponent>();
-		if(hc != null){
-			hc.Invoke(method, args);
-		}else {
-			if(args != null && args.Length > 0){
-				go.SendMessage(method, args[0]);
-			} else{
+		HologramComponent hc = go.GetComponent<HologramComponent> ();
+		if (hc != null) {
+			hc.Invoke (method, args);
+		} else {
+			if (args != null && args.Length > 0) {
+				go.SendMessage (method, args [0]);
+			} else {
 				Debug.LogWarning ("Can't find HologramComponent for " + go.name
-				                  + " using SendMessage insetead");
-				go.SendMessage(method);
+					+ " using SendMessage insetead");
+				go.SendMessage (method);
 			}
 		}
 	}
@@ -172,8 +172,8 @@ public class PlayerCommands : NetworkBehaviour
 	{
 		if (isClient) {
 			netManager.SendInteractionMessage (go, method, args);
-		} else if(isServer) {
-			OnGameObjectInteraction(go, method, args);
+		} else if (isServer) {
+			OnGameObjectInteraction (go, method, args);
 		}
 	}
 
@@ -182,15 +182,17 @@ public class PlayerCommands : NetworkBehaviour
 	/// </summary>
 	/// <param name="msgId">Message identifier.</param>
 	/// <param name="requester">Requester.</param>
-	public void AskCurrentState(short msgId, GameObject requester){
-		CmdAskCurrentState(msgId, requester);
+	public void AskCurrentState (short msgId, GameObject requester)
+	{
+		CmdAskCurrentState (msgId, requester);
 	}
 
 	//********************************
 	//Other
 	void Log (string text)
 	{
-		logger.ShowMsg ("Player]" + text);
+		if (logger != null)
+			logger.ShowMsg ("Player]" + text);
 		Debug.Log ("Player] " + text);
 	}
 
