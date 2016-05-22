@@ -61,7 +61,7 @@ public class HologramComponent : MonoBehaviour, IHologram
 		if (vMethod != null) {
 			vMethod.Invoke (target, args);
 		} else {
-			Log ("method" + method + " not found for " + target.GetType ());
+			Log ("method " + method + " not found for " + target.GetType ());
 		}
 	}
 

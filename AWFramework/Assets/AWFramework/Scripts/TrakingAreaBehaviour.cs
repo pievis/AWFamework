@@ -22,12 +22,23 @@ public class TrakingAreaBehaviour : MonoEventContext, IEventSender {
 	}
 
 	void OnTriggerEnter(Collider collider){
+		HologramComponent hc = collider.GetComponentInParent<HologramComponent>();
+		if(hc == null)
+			return;
 		OnTrakingAreaEnterEvent e = new OnTrakingAreaEnterEvent(collider.gameObject, this);
 		Send(e);
 	}
 
 	void OnTriggerExit(Collider collider){
+		HologramComponent hc = collider.GetComponentInParent<HologramComponent>();
+		if(hc == null)
+			return;
 		OnTrakingAreaExitEvent e = new OnTrakingAreaExitEvent(collider.gameObject, this);
 		Send(e);
 	}
+
+	void Log(string msg){
+		Debug.Log (gameObject.name + "] " + msg);
+	}
+
 }

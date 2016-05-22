@@ -2,17 +2,24 @@
 using System.Collections;
 using AWFramework;
 
-public class CylinderView : MonoBehaviour, IView {
+public class CylinderView : MonoBehaviour, IView, IEventSender {
 
 	HologramComponent hc;
+	EventContextCollector ecc;
 	Vector3 force = Vector3.zero;
 	
 	void Start () {
 		hc = GetComponent<HologramComponent>();
+		ecc = GetComponent<EventContextCollector>();
 	}
 
 	void Update () {
 		Moving ();
+		//pressing button
+		if(Input.GetKeyDown(KeyCode.Space))
+			hc.Invoke("SpacePressed", 1);
+		if(Input.GetKeyUp(KeyCode.Space))
+			hc.Invoke("SpacePressed", 0);
 	}
 
 	void Moving(){
@@ -27,8 +34,11 @@ public class CylinderView : MonoBehaviour, IView {
 		force = Vector3.zero;
 	}
 
-	void SendEvent(){
-
+	public void SendBtnEvent(int state){
+		if(ecc != null){
+			ButtonPressedEvent bpe = new ButtonPressedEvent(this, state);
+			ecc.Send(bpe);
+		}
 	}
 
 	/// <summary>

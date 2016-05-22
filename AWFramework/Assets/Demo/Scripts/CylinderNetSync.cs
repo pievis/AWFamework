@@ -23,6 +23,15 @@ public class CylinderNetSync : HLAPINetworkSync, INetworkSync
 		}
 	}
 
+	public void SpacePressed(int state){
+		if (isServer) {
+			view.SendBtnEvent(state);
+		}
+		if (isClient) {
+			SendCmd ("SpacePressed", state);
+		}
+	}
+
 	//
 
 	public override void OnCurrentStateReceived (NetworkMessage msg)
