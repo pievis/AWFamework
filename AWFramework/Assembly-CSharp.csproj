@@ -45,18 +45,28 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\AWFramework\Demo\Scripts\CubeDoer.cs" />
+     <Compile Include="Assets\AWFramework\Demo\Scripts\CubeModel.cs" />
+     <Compile Include="Assets\AWFramework\Demo\Scripts\CubeNetSync.cs" />
+     <Compile Include="Assets\AWFramework\Demo\Scripts\CubeView.cs" />
+     <Compile Include="Assets\AWFramework\Demo\Scripts\CylinderNetSync.cs" />
+     <Compile Include="Assets\AWFramework\Demo\Scripts\CylinderView.cs" />
+     <Compile Include="Assets\AWFramework\Demo\Scripts\Events\ButtonPressedEvent.cs" />
      <Compile Include="Assets\AWFramework\Scripts\AWConfig.cs" />
      <Compile Include="Assets\AWFramework\Scripts\AWNetworkManager.cs" />
+     <Compile Include="Assets\AWFramework\Scripts\EventContextCollector.cs" />
      <Compile Include="Assets\AWFramework\Scripts\HLAPINetworkSync.cs" />
      <Compile Include="Assets\AWFramework\Scripts\HoloDoerComponent.cs" />
      <Compile Include="Assets\AWFramework\Scripts\HologramComponent.cs" />
      <Compile Include="Assets\AWFramework\Scripts\MonoEventContext.cs" />
      <Compile Include="Assets\AWFramework\Scripts\PlayerCommands.cs" />
-     <Compile Include="Assets\AWFramework\Scripts\TrakingAreaBehaviour.cs" />
+     <Compile Include="Assets\AWFramework\Scripts\TrackingAreaBehaviour.cs" />
+     <Compile Include="Assets\AWFramework\Scripts\UI\MainMenuManager.cs" />
+     <Compile Include="Assets\AWFramework\Scripts\UI\SettingsMenuManager.cs" />
      <Compile Include="Assets\AWFramework\Scripts\model\Hologram.cs" />
      <Compile Include="Assets\AWFramework\Scripts\model\events\BaseEvent.cs" />
-     <Compile Include="Assets\AWFramework\Scripts\model\events\OnTrakingAreaEnterEvent.cs" />
-     <Compile Include="Assets\AWFramework\Scripts\model\events\OnTrakingAreaExitEvent.cs" />
+     <Compile Include="Assets\AWFramework\Scripts\model\events\OnTrackingAreaEnterEvent.cs" />
+     <Compile Include="Assets\AWFramework\Scripts\model\events\OnTrackingAreaExitEvent.cs" />
      <Compile Include="Assets\AWFramework\Scripts\model\interfaces\IEvent.cs" />
      <Compile Include="Assets\AWFramework\Scripts\model\interfaces\IEventContext.cs" />
      <Compile Include="Assets\AWFramework\Scripts\model\interfaces\IEventListener.cs" />
@@ -72,10 +82,6 @@
      <Compile Include="Assets\AWFramework\Scripts\utils\BinaryDataFormatter.cs" />
      <Compile Include="Assets\AWFramework\Scripts\utils\MovingCameraSimple.cs" />
      <Compile Include="Assets\AWFramework\Scripts\utils\ScreenLogger.cs" />
-     <Compile Include="Assets\Demo\Scripts\CubeDoer.cs" />
-     <Compile Include="Assets\Demo\Scripts\CubeModel.cs" />
-     <Compile Include="Assets\Demo\Scripts\CubeNetSync.cs" />
-     <Compile Include="Assets\Demo\Scripts\CubeView.cs" />
      <Compile Include="Assets\Vuforia\Scripts\BackgroundPlaneBehaviour.cs" />
      <Compile Include="Assets\Vuforia\Scripts\CloudRecoBehaviour.cs" />
      <Compile Include="Assets\Vuforia\Scripts\CylinderTargetBehaviour.cs" />

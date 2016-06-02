@@ -6,17 +6,17 @@ using AWFramework;
 /// A behaviour that listens to collision events and propagetes it
 /// to its event context.
 /// </summary>
-public class TrakingAreaBehaviour : MonoEventContext, IEventSender {
+public class TrackingAreaBehaviour : MonoEventContext, IEventSender {
 
-	Collider trakingArea; 
+	Collider trackingArea; 
 
 	void Start () {
 		CheckCollider();
 	}
 
 	void CheckCollider(){
-		trakingArea = GetComponent<Collider>();
-		if(trakingArea == null){
+		trackingArea = GetComponent<Collider>();
+		if(trackingArea == null){
 			Debug.Log(gameObject.name + " has no collider");
 		}
 	}
@@ -25,7 +25,7 @@ public class TrakingAreaBehaviour : MonoEventContext, IEventSender {
 		HologramComponent hc = collider.GetComponentInParent<HologramComponent>();
 		if(hc == null)
 			return;
-		OnTrakingAreaEnterEvent e = new OnTrakingAreaEnterEvent(collider.gameObject, this);
+		OnTrackingAreaEnterEvent e = new OnTrackingAreaEnterEvent(collider.gameObject, this);
 		Send(e);
 	}
 
@@ -33,7 +33,7 @@ public class TrakingAreaBehaviour : MonoEventContext, IEventSender {
 		HologramComponent hc = collider.GetComponentInParent<HologramComponent>();
 		if(hc == null)
 			return;
-		OnTrakingAreaExitEvent e = new OnTrakingAreaExitEvent(collider.gameObject, this);
+		OnTrackingAreaExitEvent e = new OnTrackingAreaExitEvent(collider.gameObject, this);
 		Send(e);
 	}
 

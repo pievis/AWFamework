@@ -2,12 +2,12 @@ using System;
 using UnityEngine;
 namespace AWFramework
 {
-	public class OnTrakingAreaExitEvent : BaseEvent
+	public class OnTrackingAreaExitEvent : BaseEvent
 	{
 		GameObject gotOut;
-		TrakingAreaBehaviour ta;
+		TrackingAreaBehaviour ta;
 		
-		public OnTrakingAreaExitEvent (GameObject gotOut, TrakingAreaBehaviour tab)
+		public OnTrackingAreaExitEvent (GameObject gotOut, TrackingAreaBehaviour tab)
 		{
 			this.gotOut = gotOut;
 			this.ta = tab;
@@ -22,7 +22,7 @@ namespace AWFramework
 			}
 		}
 		
-		public TrakingAreaBehaviour TrakingAreaBehaviour {
+		public TrackingAreaBehaviour TrakingAreaBehaviour {
 			get {
 				return this.ta;
 			}

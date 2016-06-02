@@ -30,11 +30,11 @@ public class CubeDoer : HoloDoerComponent {
 		CountForJump();
 
 		System.Type type = e.GetType();
-		if(type.Equals(typeof(OnTrakingAreaEnterEvent))){
+		if(type.Equals(typeof(OnTrackingAreaEnterEvent))){
 			Color c = Color.red;
 			cubeHologram.Invoke("SetColor", c);
 		}
-		if(type.Equals(typeof(OnTrakingAreaExitEvent))){
+		if(type.Equals(typeof(OnTrackingAreaExitEvent))){
 			Color c = Color.blue;
 			cubeHologram.Invoke("SetColor", c);
 		}
