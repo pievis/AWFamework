@@ -1,4 +1,4 @@
-# AWFamework
+# AWFramework
 Unity based framework for Augmented Worlds
 
 #Intro
